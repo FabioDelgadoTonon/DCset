@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../HBR/HBR-FABRITECH"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"totvsLanguageServer.welcomePage": false,
+		"totvsLanguageServer.editor.linter.includes": "C:\\TOTVS2210\\Protheus\\include"
+	}
+}

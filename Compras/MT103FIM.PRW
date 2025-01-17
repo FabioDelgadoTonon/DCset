@@ -22,8 +22,8 @@ User Function MT103FIM()
 			If RecLock("SE2",.F.)
 				SE2->E2_HIST    := _cHist //Grava historico do contas a pagar
 			    SE2->E2_BCOPAG  := Posicione("SA2",1,xFilial("SA2")+SE2->E2_FORNECE+SE2->E2_LOJA,"SA2->A2_BANCO")
-      
-				MSUnlock()
+				SE2->E2_PEDIDO  := ALLTRIM(SD1->D1_PEDIDO)
+      		MSUnlock()
 			EndIf
 			SE2->(DBSKIP())
 		EndDo

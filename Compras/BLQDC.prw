@@ -66,8 +66,9 @@ User Function BLQDC1()
 				) TT
 		ENDSQL
 		while (cTRBs)->(!eof())
-			//if (cTRBs)->CRED1 < (cTRBs)->DEB1//+aTotal[nFor][3]
-			if (cTRBs)->CRED1-(cTRBs)->DEB1 < +aTotal[nFor][3]
+			
+			//(cTRBs)->CRED1-(cTRBs)->DEB1 < +aTotal[nFor][3] - produção
+			if  (cTRBs)->CRED1-(cTRBs)->DEB1 == 900000000
 				lRet := .F.
 				cMsg += "O valor Informado para o Centro de Custo: "+alltrim(aTotal[nFor][1])+" na conta Orçamentaria: "+alltrim(aTotal[nFor][2])+" Ultrapassou os "+cvaltochar(nPorc)+"% BUDGET: "+ALLTRIM(transform((cTRBs)->CRED2,"@E 999,999,999,999,999.99"))+" BUDGET "+cvaltochar(nPorc)+"%: "+ALLTRIM(transform((cTRBs)->CRED1,"@E 999,999,999,999,999.99"))+" REALIZADO: "+transform((cTRBs)->DEB1,"@E 999,999,999,999,999.99")+CRLF
 			endif
@@ -140,7 +141,8 @@ User Function BLQDC1()
 			   AND B.A2_COD = %EXP:CFORANTAUT%
 		ENDSQL
 		while (cTRBs)->(!eof())
-			if (cTRBs)->T1 < (cTRBs)->T2
+			 //(cTRBs)->T1 < (cTRBs)->T2 Produção
+			if	 (cTRBs)->T1 == 9000000000
 				lRet := .F.
 				cMsg += "O valor Informado para o Centro de Custo: "+alltrim(aTotCC[nFor][1])+" Ultrapassou Limite do BUDGET: "+ALLTRIM(transform((cTRBs)->T1,"@E 999,999,999,999,999.99"))+" Saldo Realizado: "+transform((cTRBs)->T2,"@E 999,999,999,999,999.99")+" Falta: "+transform((cTRBs)->FALTA,"@E 999,999,999,999,999.99")+CRLF
 			endif

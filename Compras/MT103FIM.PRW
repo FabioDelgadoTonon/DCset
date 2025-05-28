@@ -23,6 +23,9 @@ User Function MT103FIM()
 				SE2->E2_HIST    := _cHist //Grava historico do contas a pagar
 			    SE2->E2_BCOPAG  := Posicione("SA2",1,xFilial("SA2")+SE2->E2_FORNECE+SE2->E2_LOJA,"SA2->A2_BANCO")
 				SE2->E2_PEDIDO  := ALLTRIM(SD1->D1_PEDIDO)
+				SE2->E2_CCUSTO  := ALLTRIM(SD1->D1_CC)
+				SE2->E2_XIDPP   := Posicione("SC7",1,xFilial("SC7")+SD1->D1_PEDIDO,"SC7->C7_XIDPP")
+				SE2->E2_XOBS    := Posicione("SC7",1,xFilial("SC7")+SD1->D1_PEDIDO,"SC7->C7_OBS")
       		MSUnlock()
 			EndIf
 			SE2->(DBSKIP())

@@ -1,3 +1,5 @@
+#include "rwmake.ch" 
+#Include "TopConn.Ch"
 
 /*
 
@@ -18,6 +20,10 @@ User Function MT103IPC()
 
 Local ExpN1 := PARAMIXB[1]
 
+If cEmpAnt <> '02'
+
   aCols[ExpN1][aScan(aHeader,{|x| AllTrim(x[2]) == "D1_XCO"})] := SC7->C7_XCO
+
+Endif
 
 Return Nil

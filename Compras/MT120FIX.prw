@@ -14,5 +14,9 @@
 User Function MT120FIX()
     Local aRet := PARAMIXB
 
+    If cEmpAnt <> '02'
+
     AADD(aRet, {"Nome Fornec.","C7_XNMFORN"})
+
+    Endif
 Return(aRet)

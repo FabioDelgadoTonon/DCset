@@ -79,7 +79,7 @@ User Function MT120FIM()
     Local cNum 		:= PARAMIXB[2]
 	Local nOpcA     := PARAMIXB[3]
 
-    If AllTrim(SC7->C7_COND) $ "RT|DV"  .AND. nOpcA == 1       // “RT” ou “DV”
+    If AllTrim(SC7->C7_COND) $ "RT|DV|CJ"  .AND. nOpcA == 1       // “RT” ou “DV”
         xTitulo()   
     EndIf
 Return
@@ -101,6 +101,10 @@ Static Function xTitulo()
     Local aTitulo    := {}
     LOCAL nRec       := SC7->(recno())
     LOCAL cFil       := SC7->C7_FILIAL
+    LOCAL cIDPF      := SC7->C7_XIDPP
+    LOCAL cObs       := SC7->C7_OBS
+    LOCAL cCO        := SC7->C7_XCO
+    
 
 
     SC7->( DbSetOrder(1) )// FILIAL+NUM
@@ -113,7 +117,7 @@ Static Function xTitulo()
 					SC7->C7_QUJE := nQuant
 					//SC7->C7_RESIDUO := 'S'
 				SC7->(MsUnlock())
-            endif+
+            endif
 
             SC7->( DbSkip() )
         EndDo
@@ -130,8 +134,10 @@ Static Function xTitulo()
 
     If cTpTit=='RT'
         cNatfin := SuperGetMv("FS_00001")                  
+    elseif cTpTit=='DV'
+        cNatfin := SuperGetMv("FS_00002")  
     else
-        cNatfin := SuperGetMv("FS_00002")                   
+        cNatfin := "403004"                        
     EndIf
 
 
@@ -150,7 +156,14 @@ Static Function xTitulo()
     aAdd(aTitulo, { "E2_VENCREA",  dVenc          , Nil })
     aAdd(aTitulo, { "E2_VALOR"  ,  nValor         , Nil })
     aAdd(aTitulo, { "E2_HIST"   ,  cTpTit+" -"+cNum+" - "+cNFor, Nil })  
-    aAdd(aTitulo, { "E2_MOEDA"  ,  1              , Nil })  
+    aAdd(aTitulo, { "E2_MOEDA"  ,  1              , Nil }) 
+    aAdd(aTitulo, { "E2_XIDPP",  cIDPF         , Nil })
+    aAdd(aTitulo, { "E2_XOBS",   cObs          , Nil })
+    aAdd(aTitulo, { "E2_XCO",    cCO           , Nil })
+    aAdd(aTitulo, { "E2_PEDIDO",    cNum           , Nil })
+ 
+
+
 
         lMsErroAuto := .F.
         MsExecAuto( {|x,y,z| FINA050(x,y,z)}, aTitulo,, 3 )

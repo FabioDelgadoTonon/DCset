@@ -9,6 +9,6 @@
 	],
 	"settings": {
 		"totvsLanguageServer.welcomePage": false,
-		"totvsLanguageServer.editor.linter.includes": "C:\\TOTVS2210\\Protheus\\include"
+		"totvsLanguageServer.editor.linter.includes": "D:\\Protheus\\include"
 	}
 }

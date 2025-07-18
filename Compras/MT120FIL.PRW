@@ -7,6 +7,7 @@ Local cQuery  := ""
 Local cFiltro := "" //"C7_USER == __cUserID "
 Local cString := "" 
 
+If cEmpAnt <> '02'
 	If Select("FILTRO") > 0
 		FILTRO->(DbCloseArea())
 	EndIf	
@@ -35,4 +36,6 @@ Local cString := ""
 		cFiltro += "C7_CC $ '" + cString + "'"
 	EndIf
 	
+Endif
+
 Return cFiltro         

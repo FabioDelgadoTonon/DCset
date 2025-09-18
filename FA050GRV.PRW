@@ -12,34 +12,73 @@ User Function FA050GRV()
 *---------------------*
 Local _AreaE2 := SE2->(Getarea())
 
-// _cQrySAL := "Select AK_USER, AL_NIVEL, AL_APROV, AL_ITEM, AL_DESC, AL_COD, AL_ITEM "
-// _cQrySAL += "From "+RetSqlName('SAL')+" SAL"
-// _cQrySAL += "	Full Outer Join "+RetSqlName('SAK')+" SAK On AK_COD = AL_APROV ANd SAK.D_E_L_E_T_ = '' "
-// //_cQrySAL += "	Full Outer Join "+RetSqlName('DBL')+" DBL On DBL_GRUPO = AL_COD  ANd DBL.D_E_L_E_T_ = '' "
-// _cQrySAL += "   Where SAL.D_E_L_E_T_ = '' AND AL_MSBLQL<>'1' "
-// _cQrySAL += "   AND AL_COD='"+GetMV("APP_GRPFIN",.F.,"000001")+"' "
-// _cQrySAL += "   Order By AL_COD, AL_NIVEL "
-// DbUseArea(.T.,"TOPCONN",TCGENQRY(,,_cQrySAL),"_SAL",.F.,.T.)
+U_xGerAprovSCR()
 
-_cCC := SE2->E2_CCUSTO
-IF Empty(_cCC)
-    SD1->(dbSetOrder(1))
-    IF SD1->(dbSeek(SE2->E2_FILIAL+SE2->E2_NUM+SE2->E2_PREFIXO+SE2->E2_FORNECE+SE2->E2_LOJA))
-        _cCC := SD1->D1_CC
+Restarea(_AreaE2)
+Return .T.
+*----------------------------------*
+User Function xGerAprovSCR()
+*----------------------------------*
+_lPedLote := .F.
+_cPedido := SE2->E2_PEDIDO
+
+IF Empty(_cPedido)
+    _cCC := SE2->E2_CCUSTO
+    IF Empty(_cCC)
+        SD1->(dbSetOrder(1))
+        IF SD1->(dbSeek(SE2->E2_FILIAL+SE2->E2_NUM+SE2->E2_PREFIXO+SE2->E2_FORNECE+SE2->E2_LOJA))
+            _cCC := SD1->D1_CC
+            _cPedido := SD1->D1_PEDIDO
+        EndIf
     EndIf
 EndIf
 
+IF !Empty(_cPedido)
+    SC7->(dbSetOrder(1))
+    IF SC7->(dbSeek(xFilial("SC7")+_cPedido))
+        IF SC7->(FIELDPOS("C7_XAPRVLT")) > 0
+            IF SC7->C7_XAPRVLT == "1"
+                _lPedLote:= .T.
+            ENDIF
+        ENDIF
+    ENDIF
+    IF Empty(SE2->E2_PEDIDO)
+        IF SE2->(RECLOCK("SE2",.F.))
+            SE2->E2_PEDIDO := _cPedido
+            SE2->(MSUNLOCK())
+        ENDIF
+    EndIf
 
-_cQrySAL := " Select AK_USER, AL_NIVEL, AL_APROV, AL_ITEM, AL_DESC, AL_COD, AL_ITEM " +(chr(13))+(chr(10))
-_cQrySAL += " From "+RetSqlName('SAL')+" SAL " +(chr(13))+(chr(10))
-_cQrySAL += " 	INNER Join "+RetSqlName('SAK')+" SAK On AK_COD = AL_APROV ANd SAK.D_E_L_E_T_ = ''   " +(chr(13))+(chr(10))
-_cQrySAL += " 	INNER Join "+RetSqlName('DBL')+" DBL On DBL_GRUPO = AL_COD  ANd DBL.D_E_L_E_T_ = '' AND DBL_CC='"+Alltrim(_cCC)+"' " +(chr(13))+(chr(10))
-_cQrySAL += " 	LEFT JOIN "+RetSqlName('DHL')+" DHL ON DHL_COD=AL_PERFIL ANd DHL.D_E_L_E_T_ = ''  " +(chr(13))+(chr(10))
-_cQrySAL += "    Where SAL.D_E_L_E_T_ = '' AND AL_MSBLQL<>'1'  " +(chr(13))+(chr(10))
-_cQrySAL += "    AND SUBSTRING(AL_COD,1,1)='P'  " 
-_cQrySAL += "    Order By AL_COD, AL_NIVEL  " 
-CONOUT(_cQrySAL)
+EndIf
+/*Foi pedido uma Regra para quando o PC tiver com o campo preenchido permitir cair para um grupo especifico e o mesmo permitir a aprovação por lote */
+/*Na reuniao foi comentado que existe a sazonalidade nos fornecedor onde aumentam muito a demanda de aprovação  */
+if !_lPedLote
+    _cQrySAL := " Select AK_USER, AL_NIVEL, AL_APROV, AL_ITEM, AL_DESC, AL_COD, AL_ITEM " +(chr(13))+(chr(10))
+    _cQrySAL += " From "+RetSqlName('SAL')+" SAL " +(chr(13))+(chr(10))
+    _cQrySAL += " 	INNER Join "+RetSqlName('SAK')+" SAK On AK_COD = AL_APROV AND SAK.D_E_L_E_T_ = ''   " +(chr(13))+(chr(10))
+    _cQrySAL += " 	INNER Join "+RetSqlName('DBL')+" DBL On DBL_GRUPO = AL_COD  AND DBL.D_E_L_E_T_ = '' AND DBL_CC='"+Alltrim(_cCC)+"' " +(chr(13))+(chr(10))
+    _cQrySAL += " 	LEFT JOIN "+RetSqlName('DHL')+" DHL ON DHL_COD=AL_PERFIL ANd DHL.D_E_L_E_T_ = ''  " +(chr(13))+(chr(10))
+    _cQrySAL += "    Where SAL.D_E_L_E_T_ = '' AND AL_MSBLQL<>'1'  " +(chr(13))+(chr(10))
+    _cQrySAL += "    AND SUBSTRING(AL_COD,1,1)='P'  " 
+    _cQrySAL += "    AND DHL_LIMMIN <="+Alltrim(Str(SE2->E2_VALOR))+" AND  DHL_LIMMAX >= "+Alltrim(Str(SE2->E2_VALOR))
+    _cQrySAL += "    Order By AL_COD, AL_NIVEL  " 
+    CONOUT(_cQrySAL)
+ELSE
+    _cQrySAL := " Select AK_USER, AL_NIVEL, AL_APROV, AL_ITEM, AL_DESC, AL_COD, AL_ITEM " +(chr(13))+(chr(10))
+    _cQrySAL += " From "+RetSqlName('SAL')+" SAL " +(chr(13))+(chr(10))
+    _cQrySAL += " 	INNER Join "+RetSqlName('SAK')+" SAK On AK_COD = AL_APROV AND SAK.D_E_L_E_T_ = ''   " +(chr(13))+(chr(10))
+    _cQrySAL += " 	LEFT JOIN "+RetSqlName('DHL')+" DHL ON DHL_COD=AL_PERFIL ANd DHL.D_E_L_E_T_ = ''  " +(chr(13))+(chr(10))
+    _cQrySAL += "    Where SAL.D_E_L_E_T_ = '' AND AL_MSBLQL<>'1'  " +(chr(13))+(chr(10))
+    _cQrySAL += "    AND AL_COD='P00024' " 
+    _cQrySAL += "    Order By AL_COD, AL_NIVEL  " 
+
+ENDIF
+//EECVIEW(_cQrySAL)
  DbUseArea(.T.,"TOPCONN",TCGENQRY(,,_cQrySAL),"_SAL",.F.,.T.)
+
+_cDelete := "DELETE FROM "+RetSqlName("SCR")+" WHERE CR_FILIAL='"+xFilial('SCR')+"' AND CR_NUM='"+SE2->E2_PREFIXO+SE2->E2_NUM+SE2->E2_PARCELA+SE2->E2_TIPO+SE2->E2_FORNECE+SE2->E2_LOJA+"' AND D_E_L_E_T_='' "
+TcSqlExec(_cDelete)
+
 
 _cAtual := '02'
 Do While _SAL->(!Eof())
@@ -73,6 +112,4 @@ Do While _SAL->(!Eof())
 EndDo
 _SAL->(dbCloseArea())
 
-
-Restarea(_AreaE2)
 Return .T.

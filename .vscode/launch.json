@@ -1,13 +1,19 @@
 {
 	"version": "0.2.0",
 	"configurations": [
+<<<<<<< HEAD
 	totvs_language_web_debug
 		{
 			"type": "totvs_language_web_debug",
+=======
+		{
+			"type": "totvs_language_debug",
+>>>>>>> b352e81be5774d90dcab90975c208ba9d5e1b5db
 			"request": "launch",
 			"name": "TOTVS Language Debug",
 			"program": "${command:AskForProgramName}",
 			"cwb": "${workspaceFolder}",
+<<<<<<< HEAD
 			"smartclientUrl": "http://10.111.56.242:8101",
 			"isMultiSession": true,
 			"enableTableSync": true
@@ -28,4 +34,14 @@
 		}
 	],
 	"lastProgramExecuted": "sigamdi"
+=======
+			"smartclientBin": "../totvs/bin/smartclient/smartclient.exe",
+			"isMultiSession": true,
+			"enableTableSync": true,
+			"extendFeatures": {
+				"charDetails": false
+			}
+		}
+	]
+>>>>>>> b352e81be5774d90dcab90975c208ba9d5e1b5db
 }

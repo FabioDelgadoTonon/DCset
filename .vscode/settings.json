@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD
     "totvsLanguageServer.editor.linter.includes": "D:\\Protheus\\include",
     "totvsLanguageServer.welcomePage": false
+=======
+    "totvsLanguageServer.welcomePage": false,
+    "totvsLanguageServer.editor.linter.includes": "C:\\Users\\victo\\OneDrive\\Documentos\\bkp\\BAKCUP_FV_SDB\\19-08-20-P12_INCLUDES;C:\\Users\\victo\\OneDrive\\Documentos\\bkp\\BAKCUP_FV_SDB\\19-08-20-P12_INCLUDES"
+>>>>>>> b352e81be5774d90dcab90975c208ba9d5e1b5db
 }

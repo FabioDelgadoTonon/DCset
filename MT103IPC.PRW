@@ -1,20 +1,29 @@
 #include "rwmake.ch" 
-#INCLUDE 'PROTHEUS.CH'
+#Include "TopConn.Ch"
 
-/*/{Protheus.doc} User Function MT103IPC
-Preencher campo customizado descrição produto
-@author ALEX MIRANDA
-@since 04/09/2023
-@type function
-/*/
-User Function MT103IPC
+/*
+
+
+?
+Programa  MT103IPC  Autor  Fabio Delgado Tonon  Data   24/07/24   
+?
+Desc.      Ponto de entrada para atualizar campos custimizados no Doc.
+          de entrada trazendo as informaes do pedido de compras     
+?
+Uso         Compras                                                   
+?
+
+
+*/
 
-Local _nItem   := PARAMIXB[1]
-Local _nPosCod := AsCan(aHeader,{|x|Alltrim(x[2])=="D1_COD"})
-Local _nPosDes := AsCan(aHeader,{|x|Alltrim(x[2])=="D1_XDESC"})
+User Function MT103IPC()
 
-    If _nPosCod > 0 .And. _nItem > 0
-        aCols[_nItem,_nPosDes] := SB1->B1_DESC
-    Endif
+Local ExpN1 := PARAMIXB[1]
 
-Return
+If cEmpAnt <> '02'
+
+  aCols[ExpN1][aScan(aHeader,{|x| AllTrim(x[2]) == "D1_XCO"})] := SC7->C7_XCO
+
+Endif
+
+Return Nil

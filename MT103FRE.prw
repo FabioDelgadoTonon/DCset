@@ -10,6 +10,8 @@ User Function MT103FRE()
     Local nPosProd := 0         // ARMAZENA A POSIÇÃO DO CAMPO PADRÃO D1_COD (ORIGEM)
     Local nX       := 0         // CONTROLADOR DO LAÇO DE REPETIÇÃO
 
+If cEmpAnt <> '02'
+
     // ARMAZENA O ESTADO DA ÁREA CORRENTE DA TABELA SB1
     DbSelectArea("SB1")
     aAreaSB1 := SB1->(GetArea())
@@ -26,4 +28,7 @@ User Function MT103FRE()
     // RESTAURAÇÃO DA ÁREA DE SB1 E DA ÁREA ANTERIOR
     RestArea(aAreaSB1)
     RestArea(aAreaTOT)
+
+Endif
+
 Return (aParam)

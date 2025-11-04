@@ -7,60 +7,15 @@
 			"name": "Smart Client Web Debug",
 			"program": "${command:AskForProgramName}",
 			"isMultiSession": true,
-			"enableTableSync": true
-		},
-<<<<<<< HEAD
-<<<<<<< HEAD
-	totvs_language_web_debug
-		{
-			"type": "totvs_language_web_debug",
-=======
-		{
-			"type": "totvs_language_debug",
->>>>>>> b352e81be5774d90dcab90975c208ba9d5e1b5db
-=======
-		{
-			"type": "totvs_language_debug",
->>>>>>> ddfca486fa0b30f0f6d3f2a9d7430dfe53ebebae
-			"request": "launch",
-			"name": "TOTVS Language Debug",
-			"program": "${command:AskForProgramName}",
+			"enableTableSync": true,
 			"cwb": "${workspaceFolder}",
-<<<<<<< HEAD
-<<<<<<< HEAD
-			"smartclientUrl": "http://10.111.56.242:8101",
-			"isMultiSession": true,
-			"enableTableSync": true
+			"smartclientUrl": "https://10.111.56.242:2238/webapp/"
 		}
 	],
 	"lastPrograms": [
 		{
 			"label": "sigamdi"
-		},
-		{
-			"label": "upddistr"
-		},
-		{
-			"label": "U_AMSTESTER"
-		},
-		{
-			"label": "u_zTstEmp"
 		}
 	],
 	"lastProgramExecuted": "sigamdi"
-=======
-=======
->>>>>>> ddfca486fa0b30f0f6d3f2a9d7430dfe53ebebae
-			"smartclientBin": "../totvs/bin/smartclient/smartclient.exe",
-			"isMultiSession": true,
-			"enableTableSync": true,
-			"extendFeatures": {
-				"charDetails": false
-			}
-		}
-	]
-<<<<<<< HEAD
->>>>>>> b352e81be5774d90dcab90975c208ba9d5e1b5db
-=======
->>>>>>> ddfca486fa0b30f0f6d3f2a9d7430dfe53ebebae
 }

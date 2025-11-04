@@ -21,8 +21,8 @@ Local aSubMenu := {}
 	
 	aAdd( aSubMenu, { 'Processar pedidos' ,'u_ProcZIG()', 0 , 3,0,NIL})
 	aAdd( aSubMenu, { 'Importar ZIG' ,'u_ImpZIG()', 0 , 3,0,NIL})
-	aAdd( aRotina, { 'Tomorrowland' , aSubMenu, 0 , 3,0,NIL})
-	aadd(aRotina,{'Espelho de Nota Fiscal ','u_BRTFAT47()'  , 0 , 2,0,NIL})
+	aAdd( aRotina,  { 'Tomorrowland' , aSubMenu, 0 , 3,0,NIL})
+	aadd( aRotina,  { 'Espelho de Nota Fiscal ','u_BRTFAT47()'  , 0 , 2,0,NIL})
 
 
 Return nil

@@ -434,7 +434,7 @@ Static Function ImpPedi( cNumero, lEnd, nOrdem, oPrinter )
     Private dEmissao	:= SC5->C5_EMISSAO
     Private cVendedor	:= SC5->C5_VEND1
     Private cDescOrc	:= STR005 //"Pedido de Vendas"
-    Private cObserva	:= SC5->C5_MENNOTA
+    Private cObserva	:= ""
     Private cTpFrete	:= X3Combo( "C5_TPFRETE", SC5->C5_TPFRETE )
     Private nDespesa	:= SC5->C5_DESPESA
     Private nFrete		:= 0
@@ -590,7 +590,7 @@ Static Function ImpPedi( cNumero, lEnd, nOrdem, oPrinter )
 						SB1->B1_UM,;
 						Transform( SB1->B1_POSIPI, "@R 9999.99.99" ) ,;
 						SB1->B1_COD,;
-						SubStr(SB1->B1_DESC,1,45) + " - "+ "CFOP: " + Transform( SC6->C6_CF, PesqPictQT("C6_CF") ) + " - "+ "CST: " + Transform( SC6->C6_CLASFIS, PesqPictQT("C6_CLASFIS") ),;
+						SubStr(SB1->B1_DESC,1,45),;
 						Transform( SC6->C6_PRCVEN, "@E 99,999,999.99" ),;
 						Transform( SC6->C6_VALOR, "@E 99,999,999.99" ),;
 						Transform( nAliICM, "@E 999.99" ),;
@@ -700,7 +700,7 @@ Static Function ImpCabec( oPrinter, nPags, aImprime )
 	Local cMensa03	:= SuperGetMV("BR_ORCMEN3", Nil, "")
 	Local cMensa04	:= SuperGetMV("BR_ORCMEN4", Nil, "")
 	Local oBrushA  	:= TBrush():New( , CLR_BLUE )	
-	Local cObserva	:= SC5->C5_MENNOTA
+	Local cObserva	:= ""
 	Local aObserva	:= {}
 	Local nLinObs	:= 0	
 	Local nX
@@ -760,10 +760,10 @@ Static Function ImpCabec( oPrinter, nPags, aImprime )
 			SA3->( DbSetorder(1) )
 			SA3->( DbSeek(xFilial("SA3") + cVendedor) )
 
-		//	oPrinter:Say(0165,COLUINI+0010,STR023	+ SA3->A3_NREDUZ	,oFont08) //"VENDEDOR: "
-		//	oPrinter:Say(0165,COLUINI+0300,STR007 + SA3->A3_TEL			,oFont08) //"FONE: "
-		//	oPrinter:Say(0165,COLUINI+0500,STR024 + SA3->A3_CEL			,oFont08) //"CEL.: "
-		//	oPrinter:Say(0165,COLUINI+0660,STR022 + SA3->A3_EMAIL		,oFont08) //"E-MAIL: "
+			oPrinter:Say(0165,COLUINI+0010,STR023	+ SA3->A3_NREDUZ	,oFont08) //"VENDEDOR: "
+			oPrinter:Say(0165,COLUINI+0300,STR007 + SA3->A3_TEL			,oFont08) //"FONE: "
+			oPrinter:Say(0165,COLUINI+0500,STR024 + SA3->A3_CEL			,oFont08) //"CEL.: "
+			oPrinter:Say(0165,COLUINI+0660,STR022 + SA3->A3_EMAIL		,oFont08) //"E-MAIL: "
 
 		EndIf
  

@@ -15,7 +15,10 @@
 	"lastPrograms": [
 		{
 			"label": "sigamdi"
+		},
+		{
+			"label": "U_AMSTESTER"
 		}
 	],
-	"lastProgramExecuted": "sigamdi"
+	"lastProgramExecuted": "U_AMSTESTER"
 }
